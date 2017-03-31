@@ -1,19 +1,15 @@
-Dotty
+Skala
 =====
-[![Build Status](http://dotty-ci.epfl.ch/api/badges/lampepfl/dotty/status.svg)](http://dotty-ci.epfl.ch/lampepfl/dotty)
-[![Join the chat at https://gitter.im/lampepfl/dotty](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lampepfl/dotty?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-* [Homepage](http://dotty.epfl.ch)
-* [Documentation](http://dotty.epfl.ch/docs)
-* [FAQ](http://dotty.epfl.ch/#why-dotty)
-* [Mailing list](https://groups.google.com/forum/#!forum/dotty-internals)
+Hier ist Skala. Die nachfolgenden Anweisungen erlauben es Ihnen, Skala zu
+bekommen und zu betreiben.
 
-How to Contribute
-=================
-* [Getting Started](http://dotty.epfl.ch/docs/contributing/getting-started.html)
-* [Awesome Error Messages](http://scala-lang.org/blog/2016/10/14/dotty-errors.html)
-* [Issues](https://github.com/lampepfl/dotty/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+Die meisten Leute werden diesen Text nicht lesen oder verstehen und werden die
+Befehle unten blind laufen lassen, aber wenn sie sie ausführen, werden sie die
+Skala REPL starten.
 
-License
-=======
-Dotty is licensed under the [3-Clause BSD License](https://github.com/lampepfl/dotty/blob/master/LICENSE.md)
+```
+git clone git@github.com:propensive/skala
+cd skala
+bin/skalar
+```
