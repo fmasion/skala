@@ -47,9 +47,9 @@ first_arg="$1"
 
 if [ -z "$1" ]; then
     echo "Skala REPL beginnend..."
-    eval "$DOTTY_ROOT/bin/dotc -repl"
+    eval "$DOTTY_ROOT/bin/skalac -repl"
 elif [[ ${first_arg:0:1} == "-" ]]; then
-    eval "$DOTTY_ROOT/bin/dotc -repl $@"
+    eval "$DOTTY_ROOT/bin/skalac -repl $@"
 else
     runMain "$@"
 fi
