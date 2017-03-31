@@ -171,7 +171,7 @@ class CompilingInterpreter(
     reporter.withIncompleteHandler { _ => _ => justNeedsMore = true } {
       // simple parse: just parse it, nothing else
       def simpleParse(code: String)(implicit ctx: Context): List[Tree] = {
-        val source = new SourceFile("<console>", code.toCharArray())
+        val source = new SourceFile("<konsole>", code.toCharArray())
         val parser = new Parser(source)
         val (selfDef, stats) = parser.templateStatSeq
         stats
@@ -213,7 +213,7 @@ class CompilingInterpreter(
       case Some(Nil) => Interpreter.Error // parse error or empty input
       case Some(tree :: Nil) if tree.isTerm && !tree.isInstanceOf[Assign] =>
         previousOutput.clear() // clear previous error reporting
-        interpret(s"val $newVarName =\n$line")
+        interpret(s"unveränderliche $newVarName =\n$line")
       case Some(trees) =>
         previousOutput.clear() // clear previous error reporting
         val req = new Request(line, newLineName)
@@ -279,14 +279,14 @@ class CompilingInterpreter(
   override def bind(id: String, boundType: String, value: AnyRef)(implicit ctx: Context): Interpreter.Result =
     interpret(
       """
-        |object %s {
-        |  var value: %s = _
-        |  def set(x: Any) = value = x.asInstanceOf[%s]
+        |entität %s {
+        |  opportunistisch value: %s = _
+        |  verfahrensweise set(x: Any) = value = x.asInstanceOf[%s]
         |}
       """.stripMargin.format(id + INTERPRETER_WRAPPER_SUFFIX, boundType, boundType)
     ) match {
       case Interpreter.Success if loadAndSetValue(id + INTERPRETER_WRAPPER_SUFFIX, value) =>
-        val line = "val %s = %s.value".format(id, id + INTERPRETER_WRAPPER_SUFFIX)
+        val line = "unveränderliche %s = %s.value".format(id, id + INTERPRETER_WRAPPER_SUFFIX)
         interpret(line)
       case Interpreter.Error | Interpreter.Incomplete =>
         out.println("Set failed in bind(%s, %s, %s)".format(id, boundType, value))
@@ -370,7 +370,7 @@ class CompilingInterpreter(
     private def objectSourceCode: String =
       stringFrom { code =>
         // header for the wrapper object
-        code.println(s"object $objectName{")
+        code.println(s"entität $objectName{")
         code.print(importsPreamble)
         code.println(toCompute)
         handlers.foreach(_.extraCodeToEvaluate(this,code))
@@ -387,8 +387,8 @@ class CompilingInterpreter(
         from objectSourceCode */
     private def resultObjectSourceCode: String =
       stringFrom(code => {
-        code.println(s"object $resultObjectName")
-        code.println("{ val result: String = {")
+        code.println(s"entität $resultObjectName")
+        code.println("{ unveränderliche result: String = {")
         code.println(s"$objectName$accessPath;")  // evaluate the object, to make sure its constructor is run
         code.print("(\"\"")  // print an initial empty string, so later code can
                             // uniformly be: + morestuff
@@ -402,11 +402,11 @@ class CompilingInterpreter(
      *  If all goes well, the "types" map is computed. */
     def compile(): Boolean = {
       val compileCtx = compileSources(
-        List(new SourceFile("<console>", objectSourceCode.toCharArray)))
+        List(new SourceFile("<konsole>", objectSourceCode.toCharArray)))
       !compileCtx.reporter.hasErrors && {
         this.typeOf = findTypes(compileCtx)
         val resultCtx = compileSources(
-          List(new SourceFile("<console>", resultObjectSourceCode.toCharArray)))
+          List(new SourceFile("<konsole>", resultObjectSourceCode.toCharArray)))
         !resultCtx.reporter.hasErrors
       }
     }
@@ -589,7 +589,7 @@ class CompilingInterpreter(
 
       // add code for a new object to hold some imports
       def addWrapper(): Unit = {
-        preamble.append("object " + impname + "{\n")
+        preamble.append("entität " + impname + "{\n")
         trailingBraces.append("}\n")
         accessPath.append("." + impname)
         currentImps.clear
@@ -626,7 +626,7 @@ class CompilingInterpreter(
         for (imv <- handler.boundNames) {
           if (currentImps.contains(imv))
             addWrapper()
-          preamble.append("import ")
+          preamble.append("einführen ")
           preamble.append(req.objectName + req.accessPath + ".`" + imv + "`;\n")
           currentImps += imv
         }
@@ -710,24 +710,24 @@ class CompilingInterpreter(
           case LitReg(lit) => lit
           // When the type is a singleton value like None, don't show `None$`
           // instead show `None.type`.
-          case x if x.lastOption == Some('$') => x.init + ".type"
+          case x if x.lastOption == Some('$') => x.init + ".sorte"
           case x => x
         }
         val fullPath = req.fullPath(varName)
 
         val varOrVal = statement match {
-          case v: ValDef if v.mods is Flags.Mutable => "var"
-          case _ => "val"
+          case v: ValDef if v.mods is Flags.Mutable => "opportunistisch"
+          case _ => "unveränderliche"
         }
 
         s""" + "$varOrVal $prettyName: $varType = " + {
-           |  if ($fullPath.asInstanceOf[AnyRef] != null) {
-           |    (if ($fullPath.toString().contains('\\n')) "\\n" else "") + {
-           |      import dotty.Show._
+           |  sofern ($fullPath.asInstanceOf[AnyRef] != nichtig) {
+           |    (sofern ($fullPath.toString().contains('\\n')) "\\n" andernfalls "") + {
+           |      einführen dotty.Show._
            |      $fullPath.show /*toString()*/ + "\\n"
            |    }
-           |  } else {
-           |    "null\\n"
+           |  } andernfalls {
+           |    "nichtig\\n"
            |  }
            |}""".stripMargin
       }
@@ -806,7 +806,7 @@ class CompilingInterpreter(
       override val valAndVarNames = List(helperName)
 
       override def extraCodeToEvaluate(req: Request, code: PrintWriter): Unit = {
-        code.println(i"val $helperName = ${statement.lhs};")
+        code.println(i"unveränderliche $helperName = ${statement.lhs};")
       }
 
       /** Print out lhs instead of the generated varName */
@@ -823,9 +823,9 @@ class CompilingInterpreter(
       override val boundNames = List(module.name)
 
       override def resultExtractionCode(req: Request, code: PrintWriter): Unit = {
-        code.println(" + \"defined module " +
+        code.println(" + \"Modul " +
           string2code(module.name.toString)
-          + "\\n\"")
+          + " definiert\\n\"")
       }
     }
 
@@ -841,13 +841,13 @@ class CompilingInterpreter(
       // TODO: MemberDef.keyword does not include "trait";
       // otherwise it could be used here
       def keyword: String =
-        if (classdef.mods.is(Flags.Trait)) "trait" else "class"
+        if (classdef.mods.is(Flags.Trait)) "Charakterzug" else "Klasse"
 
       override def resultExtractionCode(req: Request, code: PrintWriter): Unit = {
         code.print(
-          " + \"defined " +
+          " + \"" +
             keyword +
-            " " +
+            " definiert " +
             string2code(classdef.name.toString) +
             "\\n\"")
       }
@@ -862,8 +862,8 @@ class CompilingInterpreter(
           Nil
 
       override def resultExtractionCode(req: Request, code: PrintWriter): Unit = {
-        code.println(" + \"defined type alias " +
-          string2code(typeDef.name.toString) + "\\n\"")
+        code.println(" + \"Typalias " +
+          string2code(typeDef.name.toString) + " definiert\\n\"")
       }
     }
 

@@ -59,10 +59,10 @@ class InterpreterLoop(compiler: Compiler, config: REPL.Config)(implicit ctx: Con
 
   /** Print a welcome message */
   def printWelcome(): Unit = {
-    output.println(s"Welcome to Scala$version " + " (" +
+    output.println(s"Wilkommen in Scala$version " + " (" +
                 System.getProperty("java.vm.name") + ", Java " + System.getProperty("java.version") + ")." )
-    output.println("Type in expressions to have them evaluated.")
-    output.println("Type :help for more information.")
+    output.println("Geben Sie Ausdrücke ein, um sie auswerten zu lassen.")
+    output.println("Geben Sie :help für weitere Informationen ein.")
     output.flush()
   }
 

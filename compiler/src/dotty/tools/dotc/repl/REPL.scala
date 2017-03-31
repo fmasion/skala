@@ -49,7 +49,7 @@ class REPL extends Driver {
 
 object REPL {
   class Config {
-    val prompt             = "scala> "
+    val prompt             = "skala> "
     val continuationPrompt = "       "
     val version            = ".next (pre-alpha)"
 
@@ -61,7 +61,7 @@ object REPL {
      *  input to be entered.
      */
     val initialCommands: List[String] =
-      "val theAnswerToLifeInTheUniverseAndEverything = 21 * 2" :: Nil
+      "unveränderliche theAnswerToLifeInTheUniverseAndEverything = 21 * 2" :: Nil
 
     /** Before exiting, the interpreter will also run the cleanup commands
      *  issued in the variable below. This is useful if your REPL creates

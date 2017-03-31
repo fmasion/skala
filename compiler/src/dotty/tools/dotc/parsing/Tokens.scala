@@ -159,8 +159,8 @@ object Tokens extends TokensCommon {
   /** alphabetic keywords */
   final val WITH = 26;             enter(WITH, "außerdem")
   final val CASE = 28;             enter(CASE, "muster")
-  final val CASECLASS = 29;        enter(CASECLASS, "muster class")
-  final val CASEOBJECT = 30;       enter(CASEOBJECT, "muster object")
+  final val CASECLASS = 29;        enter(CASECLASS, "muster klasse")
+  final val CASEOBJECT = 30;       enter(CASEOBJECT, "muster entität")
   final val VAL = 31;              enter(VAL, "unveränderliche")
   final val IMPLICIT = 37;         enter(IMPLICIT, "stillschweigend")
   final val VAR = 38;              enter(VAR, "opportunistisch")
