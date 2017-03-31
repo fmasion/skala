@@ -51,7 +51,7 @@ object StdNames {
     final val MACROkw: N     = kw("kompilationsroutine")
     final val MATCHkw: N     = kw("vergleiche")
     final val NEWkw: N       = kw("erzeuge")
-    final val NULLkw: N      = kw("nightig")
+    final val NULLkw: N      = kw("nichtig")
     final val OBJECTkw: N    = kw("entität")
     final val OVERRIDEkw: N  = kw("überschreiben")
     final val PACKAGEkw: N   = kw("paket")
