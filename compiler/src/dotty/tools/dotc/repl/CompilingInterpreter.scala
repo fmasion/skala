@@ -847,9 +847,8 @@ class CompilingInterpreter(
         code.print(
           " + \"" +
             keyword +
-            " definiert " +
             string2code(classdef.name.toString) +
-            "\\n\"")
+            " definiert\\n\"")
       }
     }
 
