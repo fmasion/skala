@@ -40,7 +40,7 @@ dlog () {
 }
 
 die() {
-  echo "Aborting: $@"
+  echo "Abbrechen: $@"
   exit 1
 }
 echoArgs () {

@@ -53,7 +53,7 @@ function build_jar {
     #
     #   Last arg is optional
     cd "$DOTTY_ROOT" >& /dev/null
-    local build_output=$(sbt "$1" || (echo "failed to run: sbt $1" >> $ERROR_LOG; kill -SIGTERM $$))
+    local build_output=$(sbt "$1" || (echo "konnte nicht laufen: sbt $1" >> $ERROR_LOG; kill -SIGTERM $$))
     local jar=$(echo $build_output | sed -n 's/.*Packaging //g; s/ \.\.\..*//g; /^\/.*/p')
 
     local sedjar="$3"
@@ -79,23 +79,23 @@ function update_packages {
 }
 
 function build_all {
-    echo "The script is going to build the required jar files"
+    echo "Das Skript wird die erforderlichen Jardateien erstellen"
 
-    printf "Building dotty-interfaces..."
+    printf "Erstellen von dotty-interfaces..."
     INTERFACES_JAR=$(build_jar dotty-interfaces/package interfaces/target)
-    printf "done\n"
+    printf "fertig\n"
 
-    printf "Building dotty-compiler..."
+    printf "Erstellen von dotty-compiler..."
     MAIN_JAR=$(build_jar dotty-compiler/package "compiler/target/scala-$SCALA_BINARY_VERSION")
-    printf "done\n"
+    printf "fertig\n"
 
-    printf "Building dotty library..."
+    printf "Erstellen von dotty library..."
     DOTTY_LIB_JAR=$(build_jar dotty-library/package "library/target/scala-$SCALA_BINARY_VERSION")
-    printf "done\n"
+    printf "fertig\n"
 
-    printf "Building tests..."
+    printf "Erstellen von tests..."
     TEST_JAR=$(build_jar test:package "compiler/target/scala-$SCALA_BINARY_VERSION" '/dotty.*-tests\.jar/p')
-    printf "done\n"
+    printf "fertig\n"
 
     update_packages
 }
@@ -124,10 +124,10 @@ function check_jar {
     local new_files="$(find "$DOTTY_ROOT/$3" \( -iname "*.scala" -o -iname "*.java" \) -newer "$2")"
     # If the find failed, or if it found new files...
     if [ "$?" -ne 0 ] || [ ! -z "$new_files" ]; then
-        printf "New files detected in $1, rebuilding..."
+        printf "Neue Dateien in $1 erkannt, erstellen..."
         rm "$2"
         eval "$4"
-        printf "done\n"
+        printf "fertig\n"
         update_packages
     fi
 }

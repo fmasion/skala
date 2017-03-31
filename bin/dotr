@@ -46,7 +46,7 @@ shift $((OPTIND-1))
 first_arg="$1"
 
 if [ -z "$1" ]; then
-    echo "Starting dotty REPL..."
+    echo "Skala REPL beginnend..."
     eval "$DOTTY_ROOT/bin/dotc -repl"
 elif [[ ${first_arg:0:1} == "-" ]]; then
     eval "$DOTTY_ROOT/bin/dotc -repl $@"
